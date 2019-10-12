@@ -1,0 +1,26 @@
+insert into category_tbl values(1,'Cloths');
+insert into category_tbl values(2,'Funitures');
+insert into category_tbl values(3,'Kichen Utencil');
+insert into category_tbl values(4,'Electronics');
+insert into category_tbl values(5,'Food');
+insert into category_tbl values(6,'Cars');
+insert into category_tbl values(7,'Fruits');
+insert into category_tbl values(8,'Shoes');
+
+insert into product_tbl values(1,'Robe',550000,100,1);
+insert into product_tbl values(2,'T-Shirt',500000,10,1);
+insert into product_tbl values(3,'Table-Chair',150000,15,2);
+insert into product_tbl values(4,'Chairs',100000,110,2);
+insert into product_tbl values(5,'Beds',550000,1044,2);
+insert into product_tbl values(6,'Cooking Sponds',5500,1750,3);
+insert into product_tbl values(7,'Knife',5000,100,3);
+insert into product_tbl values(8,'Radio',550000,130,4);
+insert into product_tbl values(9,'Television',1500000,160,4);
+insert into product_tbl values(10,'Yam',25000,150,5);
+insert into product_tbl values(11,'Corn',450000,1099,5);
+insert into product_tbl values(12,'Jeep-Checkee',16000000,106,6);
+insert into product_tbl values(13,'Toyotal Pajero',550000,14,6);
+insert into product_tbl values(14,'Mangoes',1000,102,7);
+insert into product_tbl values(15,'Oranges',500,188,7);
+insert into product_tbl values(16,'Putting nene',50000,107,8);
+insert into product_tbl values(17,'Sandals',45000,1004,8);
