@@ -1,13 +1,8 @@
 package com.first.springapp.firstwebspringapp.controllers;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.first.springapp.firstwebspringapp.dto.ProductDTO;
+import com.first.springapp.firstwebspringapp.exception.ResourceNotFoundException;
 import com.first.springapp.firstwebspringapp.model.Product;
 import com.first.springapp.firstwebspringapp.services.ProductService;
 
@@ -44,14 +40,18 @@ public class ProductController {
 
 	@GetMapping("products")
 	public ResponseEntity<List<ProductDTO>> getAllProducts() {
-		return ResponseEntity.ok(productService.generate());
+		List<ProductDTO> products =productService.generate();
+		if(products==null) 
+			throw new ResourceNotFoundException("No Category Exist in List For now");
+		else
+			return ResponseEntity.ok(products);
 	}
 
 	@GetMapping("products/{productId}")
 	public ResponseEntity<ProductDTO> getProduct(@PathVariable int productId) {
 		ProductDTO product=productService.generateOne(productId);
 		if(product==null)
-			return ResponseEntity.notFound().build();
+			throw new ResourceNotFoundException("Category_id: "+ product);
 		else
 				return ResponseEntity.ok().body(product);
 		
@@ -67,8 +67,7 @@ public class ProductController {
 				 .fromCurrentRequest().path("/{categoryId}")
 				 .buildAndExpand(product.getId()).toUri();
 		 responseHeaders.setLocation(newProductUri); 
-		 return new ResponseEntity<>(null,responseHeaders, HttpStatus.CREATED);
-		 
+		 return ResponseEntity.created(newProductUri).build();	 
 
 	}
 	
@@ -80,8 +79,11 @@ public class ProductController {
 	}
 	@DeleteMapping("products/{productId}")
 	public ResponseEntity<?> delProduct(@PathVariable Integer productId){
-		productService.del(productId);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		 Integer del =productService.del(productId);
+		 if(del== null)
+				throw new ResourceNotFoundException("Category_id: "+ productId );
+			
+		return new ResponseEntity<String>( productId+"deleted",HttpStatus.NO_CONTENT);
 	}
 
 }

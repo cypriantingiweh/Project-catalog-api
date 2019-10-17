@@ -66,9 +66,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void del(int id) {
+	public Integer del(int id) {
+		
+		CategoryDTO categoryDTO = new CategoryDTO();
 		
 		repository.deleteById(id);
+	
+		return categoryDTO.getId();
 		
 	}
 }

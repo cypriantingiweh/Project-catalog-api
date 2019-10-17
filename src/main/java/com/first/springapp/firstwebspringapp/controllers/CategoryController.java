@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.first.springapp.firstwebspringapp.dto.CategoryDTO;
+import com.first.springapp.firstwebspringapp.exception.ResourceNotFoundException;
 import com.first.springapp.firstwebspringapp.model.Category;
 import com.first.springapp.firstwebspringapp.services.CategoryService;
 
@@ -42,18 +44,24 @@ public class CategoryController {
 		URI newCategoryUri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{categoryId}")
 				.buildAndExpand(category.getId()).toUri();
 		responseHeaders.setLocation(newCategoryUri);
-		return new ResponseEntity<>(null, responseHeaders, HttpStatus.CREATED);
+		
+		return ResponseEntity.created(newCategoryUri).build();
 	}
 	@GetMapping("category")
 	public ResponseEntity<List<CategoryDTO>> getAllCategories() {
-		return ResponseEntity.ok(categoryService.generate());
+		List<CategoryDTO> category = categoryService.generate();
+		if(category==null) 
+			throw new ResourceNotFoundException("No Category Exist in List For now");
+		else
+		return ResponseEntity.ok(category);
 	}
 
+	
 	@GetMapping("category/{categoryId}")
 	public ResponseEntity<CategoryDTO> getCategory( @PathVariable int categoryId) {
 		CategoryDTO category=categoryService.generateOne(categoryId);
 		if(category==null)
-			return ResponseEntity.notFound().build();
+			throw new ResourceNotFoundException("Category_id: "+ categoryId);
 		else
 				return ResponseEntity.ok().body(category);
 		
@@ -68,7 +76,12 @@ public class CategoryController {
 	}
 	@DeleteMapping("category/{categoryId}")
 	public ResponseEntity<?> delCategory(@PathVariable int categoryId ){
-		categoryService.del(categoryId);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		 Integer del = categoryService.del(categoryId);
+		if(del== null)
+			throw new ResourceNotFoundException("Category_id: "+ categoryId);
+		
+		else
+			categoryService.del(categoryId);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

@@ -13,13 +13,19 @@ import javax.persistence.Table;
 public class Product {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id", updatable = false, nullable = false)
+	@GeneratedValue
+	@Column(name = "pid")
 	private Integer id;
 	
+	@Column(name = "pname")
 	private String name;
+	
+	@Column(name = "pquantity")
 	private Integer quantity;
+	
 	private Double price;
+	
+	
 	
 	@ManyToOne
 	private Category category;

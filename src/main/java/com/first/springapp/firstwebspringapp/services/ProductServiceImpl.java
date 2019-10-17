@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.first.springapp.firstwebspringapp.dto.CategoryDTO;
 import com.first.springapp.firstwebspringapp.dto.ProductDTO;
 import com.first.springapp.firstwebspringapp.model.Category;
 import com.first.springapp.firstwebspringapp.model.Product;
@@ -84,8 +85,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void del(int id) {
+	public Integer del(int id) {
+		ProductDTO categoryDTO = new ProductDTO();
 		repository.deleteById(id);
+		return categoryDTO.getId();
 		
 	}
 }

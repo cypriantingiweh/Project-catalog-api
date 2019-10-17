@@ -15,5 +15,5 @@ public interface ProductService {
 	ProductDTO generateOne(Integer id);
 	Product add(ProductDTO productDTO,int categoryId);
 	void edit(int id ,ProductDTO productDTO, int productId);
-	void del(int id);
+	Integer del(int id);
 }

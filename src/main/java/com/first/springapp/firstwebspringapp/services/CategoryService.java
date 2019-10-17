@@ -12,6 +12,6 @@ public interface CategoryService {
 	CategoryDTO generateOne(Integer id);
 	Category add(CategoryDTO categoryDTO);
 	void edit(int id ,CategoryDTO categoryDTO);
-	void del(int id);
+	Integer del(int id);
 
 }
